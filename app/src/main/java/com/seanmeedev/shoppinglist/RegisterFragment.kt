@@ -1,5 +1,6 @@
 package com.seanmeedev.shoppinglist
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
@@ -56,6 +57,8 @@ class RegisterFragment : Fragment(R.layout.fragment_register), View.OnClickListe
             if (it.isSuccessful) {
                 Log.d(TAG, "createUserWithEmail: success")
                 Toast.makeText(requireActivity(), "Successful Registration", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(requireActivity(), MainActivity::class.java))
+                activity?.finish()
             } else {
                 Log.w(TAG, "createUserWithEmail: failed", it.exception)
                 Toast.makeText(requireActivity(), it.exception?.message, Toast.LENGTH_SHORT).show()

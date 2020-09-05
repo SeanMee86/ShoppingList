@@ -54,6 +54,7 @@ class LoginFragment : Fragment(R.layout.fragment_login), View.OnClickListener {
                     Log.d(TAG, "loginWithEmail: successful")
                     Toast.makeText(requireActivity(), "Login Successful", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(requireActivity(), MainActivity::class.java))
+                    activity?.finish()
                 } else {
                     Log.w(TAG, "loginWithEmail: failed", it.exception)
                     Toast.makeText(requireActivity(), it.exception?.message, Toast.LENGTH_SHORT).show()

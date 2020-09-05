@@ -17,11 +17,7 @@ class MainActivity : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
 
-        val groceryList = mutableListOf<Grocery>(
-            Grocery("Bananas", 5),
-            Grocery("Tuna", 6),
-            Grocery("Mayo", 1)
-        )
+        val groceryList = mutableListOf<Grocery>()
 
         val adapter = GroceryAdapter(groceryList)
         rvGroceries.adapter = adapter
