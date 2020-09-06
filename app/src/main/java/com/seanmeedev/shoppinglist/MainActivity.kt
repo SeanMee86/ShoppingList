@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -53,6 +54,16 @@ class MainActivity : AppCompatActivity() {
                 model: GroceryItem
             ) {
                 holder.name.text = model.name
+                holder.gotten.isChecked = model.gotten
+                holder.quantity.text = model.quantity.toString()
+                holder.key.text = model.key
+
+                holder.gotten.setOnCheckedChangeListener { _, isChecked ->
+                    query
+                        .child(holder.key.text.toString())
+                        .child("gotten")
+                        .setValue(isChecked)
+                }
             }
         }
 
@@ -64,16 +75,22 @@ class MainActivity : AppCompatActivity() {
 
         btnAddGrocery.setOnClickListener {
             val name = etGrocery.text.toString()
-            database
+            val quantity = etQuantity.text.toString()
+            val pushedItemRef: DatabaseReference
+            val groceryList = database
                 .reference
                 .child("User")
                 .child(mAuth.currentUser?.uid.toString())
                 .child("GroceryList")
-                .push()
-                .child("name")
-                .setValue(name)
-//            mAdapter.notifyDataSetChanged()
+            if (quantity.isEmpty()) {
+                pushedItemRef = groceryList.push()
+                pushedItemRef.setValue(GroceryItem(name, pushedItemRef.key.toString()))
+            } else {
+                pushedItemRef = groceryList.push()
+                pushedItemRef.setValue(GroceryItem(name,pushedItemRef.key.toString(), quantity.toInt()))
+            }
             etGrocery.text.clear()
+            etQuantity.text.clear()
         }
 
         signOutBtn.setOnClickListener {
