@@ -1,4 +1,4 @@
-package com.seanmeedev.shoppinglist
+package com.seanmeedevworld.shoppinglist
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import com.seanmeedev.shoppinglist.adapters.GroceryItemAdapter
-import com.seanmeedev.shoppinglist.models.GroceryItem
+import com.seanmeedevworld.shoppinglist.adapters.GroceryItemAdapter
+import com.seanmeedevworld.shoppinglist.models.GroceryItem
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

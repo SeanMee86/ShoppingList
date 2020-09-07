@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:392944613852:android:c6ec97c24008be6c723719",
         "android_client_info": {
-          "package_name": "com.seanmeedev.shoppinglist"
+          "package_name": "com.seanmeedevworld.shoppinglist"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "392944613852-9it6ptt2rirbj2mcr3ns7pm68fhpi0qb.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.seanmeedev.shoppinglist",
+            "package_name": "com.seanmeedevworld.shoppinglist",
             "certificate_hash": "cdad5c40dbf9b8837d411ea4e8b71f96549017fc"
           }
         },

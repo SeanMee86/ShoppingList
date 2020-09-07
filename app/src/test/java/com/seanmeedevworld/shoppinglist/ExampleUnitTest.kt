@@ -1,4 +1,4 @@
-package com.seanmeedev.shoppinglist
+package com.seanmeedevworld.shoppinglist
 
 import org.junit.Test
 

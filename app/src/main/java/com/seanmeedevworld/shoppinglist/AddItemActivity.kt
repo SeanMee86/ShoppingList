@@ -1,4 +1,4 @@
-package com.seanmeedev.shoppinglist
+package com.seanmeedevworld.shoppinglist
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -10,7 +10,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.seanmeedev.shoppinglist.models.GroceryItem
+import com.seanmeedevworld.shoppinglist.models.GroceryItem
 import kotlinx.android.synthetic.main.activity_add_item.*
 
 class AddItemActivity : AppCompatActivity() {

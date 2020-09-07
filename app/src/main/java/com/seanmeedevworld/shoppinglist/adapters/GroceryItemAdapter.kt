@@ -1,4 +1,4 @@
-package com.seanmeedev.shoppinglist.adapters
+package com.seanmeedevworld.shoppinglist.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.database.DatabaseReference
-import com.seanmeedev.shoppinglist.R
-import com.seanmeedev.shoppinglist.models.GroceryItem
+import com.seanmeedevworld.shoppinglist.R
+import com.seanmeedevworld.shoppinglist.models.GroceryItem
 
 class GroceryItemAdapter(options: FirebaseRecyclerOptions<GroceryItem>, private val query: DatabaseReference) :
     FirebaseRecyclerAdapter<GroceryItem, GroceryItemAdapter.GroceryItemViewHolder>(options) {

@@ -1,4 +1,4 @@
-package com.seanmeedev.shoppinglist
+package com.seanmeedevworld.shoppinglist
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

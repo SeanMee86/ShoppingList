@@ -1,4 +1,4 @@
-package com.seanmeedev.shoppinglist.fragments
+package com.seanmeedevworld.shoppinglist.fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
-import com.seanmeedev.shoppinglist.MainActivity
-import com.seanmeedev.shoppinglist.R
+import com.seanmeedevworld.shoppinglist.MainActivity
+import com.seanmeedevworld.shoppinglist.R
 import kotlinx.android.synthetic.main.fragment_login.*
 
 /**
