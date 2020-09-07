@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 
 class GroceryItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val name: TextView = itemView.findViewById(R.id.tvGroceryItemName)
-    val key: TextView = itemView.findViewById(R.id.tvGroceryKey)
     val quantity: TextView = itemView.findViewById(R.id.tvGroceryItemQuantity)
     val gotten: CheckBox = itemView.findViewById(R.id.cbGotten)
 }

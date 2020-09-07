@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -56,13 +57,13 @@ class MainActivity : AppCompatActivity() {
                 holder.name.text = model.name
                 holder.gotten.isChecked = model.gotten
                 holder.quantity.text = model.quantity.toString()
-                holder.key.text = model.key
 
-                holder.gotten.setOnCheckedChangeListener { _, isChecked ->
+                holder.gotten.setOnClickListener {
+                    val groceryKey = getRef(position).key
                     query
-                        .child(holder.key.text.toString())
+                        .child(groceryKey.toString())
                         .child("gotten")
-                        .setValue(isChecked)
+                        .setValue(holder.gotten.isChecked)
                 }
             }
         }
@@ -74,23 +75,7 @@ class MainActivity : AppCompatActivity() {
         mAdapter.startListening()
 
         btnAddGrocery.setOnClickListener {
-            val name = etGrocery.text.toString()
-            val quantity = etQuantity.text.toString()
-            val pushedItemRef: DatabaseReference
-            val groceryList = database
-                .reference
-                .child("User")
-                .child(mAuth.currentUser?.uid.toString())
-                .child("GroceryList")
-            if (quantity.isEmpty()) {
-                pushedItemRef = groceryList.push()
-                pushedItemRef.setValue(GroceryItem(name, pushedItemRef.key.toString()))
-            } else {
-                pushedItemRef = groceryList.push()
-                pushedItemRef.setValue(GroceryItem(name,pushedItemRef.key.toString(), quantity.toInt()))
-            }
-            etGrocery.text.clear()
-            etQuantity.text.clear()
+            addGrocery(query)
         }
 
         signOutBtn.setOnClickListener {
@@ -98,5 +83,19 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, StartActivity::class.java))
             finish()
         }
+    }
+    
+    fun addGrocery(query: DatabaseReference) {
+        val name = etGrocery.text.toString()
+        val quantity = etQuantity.text.toString()
+        if (quantity.isEmpty()) {
+            query.push()
+                .setValue(GroceryItem(name))
+        } else {
+            query.push()
+                .setValue(GroceryItem(name, quantity.toInt()))
+        }
+        etGrocery.text.clear()
+        etQuantity.text.clear()
     }
 }
