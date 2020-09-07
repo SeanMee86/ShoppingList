@@ -46,13 +46,5 @@ class StartActivity : AppCompatActivity() {
                 commit()
             }
         }
-
-        googleSignInBtn.setOnClickListener {
-            supportFragmentManager.beginTransaction().apply {
-                replace(R.id.flLayout, googleSignOnFragment)
-                commit()
-            }
-        }
-
     }
 }
