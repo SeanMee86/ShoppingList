@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.database.FirebaseRecyclerOptions
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var mAuth : FirebaseAuth
     lateinit var database : FirebaseDatabase
     lateinit var recyclerView: RecyclerView
+    lateinit var mAdapter: GroceryItemAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,13 +41,13 @@ class MainActivity : AppCompatActivity() {
             .setQuery(query, GroceryItem::class.java)
             .build()
 
-        val mAdapter = GroceryItemAdapter(options, query)
+        mAdapter = GroceryItemAdapter(options, query)
 
         val layoutManager = LinearLayoutManager(this)
         layoutManager.reverseLayout = false
         rvGroceries.layoutManager = layoutManager
         rvGroceries.adapter = mAdapter
-        mAdapter.startListening()
+        swipeToDelete(recyclerView)
 
         btnAddGrocery.setOnClickListener {
             addGrocery(query)
@@ -57,8 +59,34 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
     }
+
+    override fun onStart() {
+        super.onStart()
+        mAdapter.startListening()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mAdapter.stopListening()
+    }
+
+    private fun swipeToDelete(recyclerView: RecyclerView) {
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                mAdapter.getRef(viewHolder.adapterPosition).removeValue()
+            }
+        }).attachToRecyclerView(recyclerView)
+    }
     
-    fun addGrocery(query: DatabaseReference) {
+    private fun addGrocery(query: DatabaseReference) {
         val name = etGrocery.text.toString()
         val quantity = etQuantity.text.toString()
         if(name.isEmpty()) {
