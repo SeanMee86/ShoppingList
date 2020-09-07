@@ -34,7 +34,6 @@ class AddItemActivity : AppCompatActivity() {
 
         btnAddGrocery.setOnClickListener {
             addGrocery()
-            startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
     }
