@@ -3,13 +3,13 @@ package com.seanmeedev.shoppinglist
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
+import android.view.Menu
+import android.view.MenuItem
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.seanmeedev.shoppinglist.adapters.GroceryItemAdapter
 import com.seanmeedev.shoppinglist.models.GroceryItem
@@ -17,9 +17,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var mAuth : FirebaseAuth
-    lateinit var database : FirebaseDatabase
-    lateinit var recyclerView: RecyclerView
+    private lateinit var mAuth : FirebaseAuth
+    private lateinit var database : FirebaseDatabase
+    private lateinit var recyclerView: RecyclerView
     lateinit var mAdapter: GroceryItemAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,15 +49,22 @@ class MainActivity : AppCompatActivity() {
         rvGroceries.adapter = mAdapter
         swipeToDelete(recyclerView)
 
-        btnAddGrocery.setOnClickListener {
-            addGrocery(query)
+        addNoteBtn.setOnClickListener {
+            startActivity(Intent(this, AddItemActivity::class.java))
         }
+    }
 
-        signOutBtn.setOnClickListener {
-            mAuth.signOut()
-            startActivity(Intent(this, StartActivity::class.java))
-            finish()
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val menuInflater = menuInflater
+        menuInflater.inflate(R.menu.main_activity_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.logoutMenuItem -> signOut()
         }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onStart() {
@@ -85,22 +92,9 @@ class MainActivity : AppCompatActivity() {
             }
         }).attachToRecyclerView(recyclerView)
     }
-    
-    private fun addGrocery(query: DatabaseReference) {
-        val name = etGrocery.text.toString()
-        val quantity = etQuantity.text.toString()
-        if(name.isEmpty()) {
-            Toast.makeText(this, "Please enter an item", Toast.LENGTH_SHORT).show()
-            return
-        }
-        if (quantity.isEmpty()) {
-            query.push()
-                .setValue(GroceryItem(name))
-        } else {
-            query.push()
-                .setValue(GroceryItem(name, quantity.toInt()))
-        }
-        etGrocery.text.clear()
-        etQuantity.text.clear()
+    private fun signOut() {
+        mAuth.signOut()
+        startActivity(Intent(this, StartActivity::class.java))
+        finish()
     }
 }
