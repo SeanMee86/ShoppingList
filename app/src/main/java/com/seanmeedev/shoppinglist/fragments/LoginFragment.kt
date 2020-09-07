@@ -1,24 +1,25 @@
-package com.seanmeedev.shoppinglist
+package com.seanmeedev.shoppinglist.fragments
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
+import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.fragment_register.*
-
+import com.seanmeedev.shoppinglist.MainActivity
+import com.seanmeedev.shoppinglist.R
+import kotlinx.android.synthetic.main.fragment_login.*
 
 /**
  * A simple [Fragment] subclass.
- * Use the [RegisterFragment.newInstance] factory method to
+ * Use the [LoginFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class RegisterFragment : Fragment(R.layout.fragment_register), View.OnClickListener {
+class LoginFragment : Fragment(R.layout.fragment_login), View.OnClickListener {
 
-    lateinit var mAuth: FirebaseAuth
+    private lateinit var mAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +28,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register), View.OnClickListe
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        signUpBtn.setOnClickListener(this)
+        signInBtn.setOnClickListener(this)
     }
 
     private fun validateUser() {
@@ -45,32 +46,32 @@ class RegisterFragment : Fragment(R.layout.fragment_register), View.OnClickListe
             Toast.makeText(requireActivity(), "Please enter a password", Toast.LENGTH_SHORT).show()
             return
         }
-        signupUser(email, password)
+        loginUser(email, password)
     }
 
-    private fun signupUser(email: String, password: String){
-        mAuth
-            .createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(requireActivity()) {
-            if (it.isSuccessful) {
-                Log.d(TAG, "createUserWithEmail: success")
-                Toast.makeText(requireActivity(), "Successful Registration", Toast.LENGTH_SHORT).show()
-                startActivity(Intent(requireActivity(), MainActivity::class.java))
-                activity?.finish()
-            } else {
-                Log.w(TAG, "createUserWithEmail: failed", it.exception)
-                Toast.makeText(requireActivity(), it.exception?.message, Toast.LENGTH_SHORT).show()
+    private fun loginUser(email: String, password: String) {
+        mAuth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(requireActivity()){
+                if(it.isSuccessful) {
+                    Log.d(TAG, "loginWithEmail: successful")
+                    Toast.makeText(requireActivity(), "Login Successful", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(requireActivity(), MainActivity::class.java))
+                    activity?.finish()
+                } else {
+                    Log.w(TAG, "loginWithEmail: failed", it.exception)
+                    Toast.makeText(requireActivity(), it.exception?.message, Toast.LENGTH_SHORT).show()
+                }
             }
-        }
+
     }
 
     override fun onClick(p0: View) {
         when(p0.id){
-            R.id.signUpBtn -> validateUser()
+            R.id.signInBtn -> validateUser()
         }
     }
 
     companion object {
-        val TAG = "FirebaseRegistration"
+        val TAG = "FirebaseSignin"
     }
 }

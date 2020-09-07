@@ -1,4 +1,4 @@
-package com.seanmeedev.shoppinglist
+package com.seanmeedev.shoppinglist.models
 
 data class GroceryItem (
     val name: String = "",

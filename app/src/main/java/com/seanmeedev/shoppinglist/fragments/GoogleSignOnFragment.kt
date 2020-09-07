@@ -1,7 +1,8 @@
-package com.seanmeedev.shoppinglist
+package com.seanmeedev.shoppinglist.fragments
 
 import androidx.fragment.app.Fragment
 import android.view.View
+import com.seanmeedev.shoppinglist.R
 
 /**
  * A simple [Fragment] subclass.

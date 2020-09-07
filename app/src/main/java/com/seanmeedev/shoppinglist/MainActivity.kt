@@ -10,6 +10,8 @@ import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.seanmeedev.shoppinglist.adapters.GroceryItemAdapter
+import com.seanmeedev.shoppinglist.models.GroceryItem
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

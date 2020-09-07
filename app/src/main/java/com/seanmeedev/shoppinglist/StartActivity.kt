@@ -4,6 +4,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.google.firebase.auth.FirebaseAuth
+import com.seanmeedev.shoppinglist.fragments.GoogleSignOnFragment
+import com.seanmeedev.shoppinglist.fragments.LoginFragment
+import com.seanmeedev.shoppinglist.fragments.RegisterFragment
 import kotlinx.android.synthetic.main.activity_start.*
 
 class StartActivity : AppCompatActivity() {
