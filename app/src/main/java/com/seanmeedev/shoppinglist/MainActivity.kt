@@ -3,12 +3,9 @@ package com.seanmeedev.shoppinglist
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -40,33 +37,7 @@ class MainActivity : AppCompatActivity() {
             .setQuery(query, GroceryItem::class.java)
             .build()
 
-        val mAdapter = object : FirebaseRecyclerAdapter<GroceryItem, GroceryItemViewHolder>(options){
-            override fun onCreateViewHolder(
-                parent: ViewGroup,
-                viewType: Int
-            ): GroceryItemViewHolder {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_firebase_grocery, parent, false)
-                return GroceryItemViewHolder(view)
-            }
-
-            override fun onBindViewHolder(
-                holder: GroceryItemViewHolder,
-                position: Int,
-                model: GroceryItem
-            ) {
-                holder.name.text = model.name
-                holder.gotten.isChecked = model.gotten
-                holder.quantity.text = model.quantity.toString()
-
-                holder.gotten.setOnClickListener {
-                    val groceryKey = getRef(position).key
-                    query
-                        .child(groceryKey.toString())
-                        .child("gotten")
-                        .setValue(holder.gotten.isChecked)
-                }
-            }
-        }
+        val mAdapter = GroceryItemAdapter(options, query)
 
         val layoutManager = LinearLayoutManager(this)
         layoutManager.reverseLayout = false
@@ -88,6 +59,10 @@ class MainActivity : AppCompatActivity() {
     fun addGrocery(query: DatabaseReference) {
         val name = etGrocery.text.toString()
         val quantity = etQuantity.text.toString()
+        if(name.isEmpty()) {
+            Toast.makeText(this, "Please enter an item", Toast.LENGTH_SHORT).show()
+            return
+        }
         if (quantity.isEmpty()) {
             query.push()
                 .setValue(GroceryItem(name))
