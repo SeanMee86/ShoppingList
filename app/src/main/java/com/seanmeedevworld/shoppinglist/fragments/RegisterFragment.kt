@@ -8,6 +8,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FirebaseFirestore
 import com.seanmeedevworld.shoppinglist.MainActivity
 import com.seanmeedevworld.shoppinglist.R
 import kotlinx.android.synthetic.main.fragment_register.*
@@ -21,6 +23,7 @@ import kotlinx.android.synthetic.main.fragment_register.*
 class RegisterFragment : Fragment(R.layout.fragment_register), View.OnClickListener {
 
     lateinit var mAuth: FirebaseAuth
+    lateinit var db : FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +59,13 @@ class RegisterFragment : Fragment(R.layout.fragment_register), View.OnClickListe
             .addOnCompleteListener(requireActivity()) {
             if (it.isSuccessful) {
                 Log.d(TAG, "createUserWithEmail: success")
+                val emailMap = hashMapOf<String, String>(
+                    "email" to email
+                )
+                db = FirebaseFirestore.getInstance()
+                db.collection("User")
+                    .document(mAuth.currentUser?.uid.toString())
+                    .set(emailMap)
                 Toast.makeText(requireActivity(), "Successful Registration", Toast.LENGTH_SHORT).show()
                 startActivity(Intent(requireActivity(), MainActivity::class.java))
                 activity?.finish()
