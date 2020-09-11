@@ -8,50 +8,34 @@ import android.view.MenuItem
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
-import com.seanmeedevworld.shoppinglist.adapters.GroceryItemAdapter
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FirebaseFirestore
+import com.seanmeedevworld.shoppinglist.adapters.GroceryItemFSAdapter
 import com.seanmeedevworld.shoppinglist.models.GroceryItem
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mAuth : FirebaseAuth
-    private lateinit var database : FirebaseDatabase
     private lateinit var recyclerView: RecyclerView
-    lateinit var mAdapter: GroceryItemAdapter
+    private lateinit var db : FirebaseFirestore
+    private lateinit var groceryItemRef: CollectionReference
+    private lateinit var adapter : GroceryItemFSAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         mAuth = FirebaseAuth.getInstance()
-        database = FirebaseDatabase.getInstance()
-        recyclerView = rvGroceries
-        rvGroceries.setHasFixedSize(true)
-
-        val query = database
-            .reference
-            .child("User")
-            .child(mAuth.currentUser?.uid.toString())
-            .child("GroceryList")
-
-        val options = FirebaseRecyclerOptions.Builder<GroceryItem>()
-            .setQuery(query, GroceryItem::class.java)
-            .build()
-
-        mAdapter = GroceryItemAdapter(options, query)
-
-        val layoutManager = LinearLayoutManager(this)
-        layoutManager.reverseLayout = false
-        rvGroceries.layoutManager = layoutManager
-        rvGroceries.adapter = mAdapter
-        swipeToDelete(recyclerView)
+        db = FirebaseFirestore.getInstance()
+        groceryItemRef = db.collection("User").document(mAuth.currentUser?.uid.toString()).collection("GroceryList")
 
         addNoteBtn.setOnClickListener {
             startActivity(Intent(this, AddItemActivity::class.java))
         }
+        setUpRecyclerView()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -69,15 +53,28 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        mAdapter.startListening()
+        adapter.startListening()
     }
 
     override fun onStop() {
         super.onStop()
-        mAdapter.stopListening()
+        adapter.stopListening()
     }
 
-    private fun swipeToDelete(recyclerView: RecyclerView) {
+    private fun setUpRecyclerView() {
+        val query = groceryItemRef
+
+        val options = FirestoreRecyclerOptions.Builder<GroceryItem>()
+            .setQuery(query, GroceryItem::class.java)
+            .build()
+
+        adapter = GroceryItemFSAdapter(options, query)
+
+        recyclerView  = rvGroceries
+        rvGroceries.setHasFixedSize(true)
+        rvGroceries.layoutManager = LinearLayoutManager(this)
+        rvGroceries.adapter = adapter
+
         ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
             override fun onMove(
                 recyclerView: RecyclerView,
@@ -88,10 +85,12 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                mAdapter.getRef(viewHolder.adapterPosition).removeValue()
+                adapter.deleteItem(viewHolder.adapterPosition)
             }
-        }).attachToRecyclerView(recyclerView)
+        }).attachToRecyclerView(rvGroceries)
+
     }
+
     private fun signOut() {
         mAuth.signOut()
         startActivity(Intent(this, StartActivity::class.java))
