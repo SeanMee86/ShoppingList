@@ -26,6 +26,13 @@ class GroceryItemFSAdapter(options: FirestoreRecyclerOptions<GroceryItem>, priva
         snapshots.getSnapshot(position).reference.delete()
     }
 
+    fun updateCheckBox(position: Int, holder: GroceryItemHolder) {
+        val checked = hashMapOf(
+            "gotten" to holder.gotten.isChecked
+        )
+        snapshots.getSnapshot(position).reference.update(checked as Map<String, Boolean>)
+    }
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -44,14 +51,7 @@ class GroceryItemFSAdapter(options: FirestoreRecyclerOptions<GroceryItem>, priva
         holder.quantity.text = model.quantity.toString()
 
         holder.gotten.setOnClickListener {
-            val groceryKey = snapshots.getSnapshot(position).reference.id
-            println("*******************************")
-            Log.d("CheckBoxId", "The checkbox id is: $groceryKey")
-            println("*******************************")
-            val checkBox = hashMapOf(
-                "gotten" to holder.gotten.isChecked
-            )
-            this.query.document(groceryKey).update(checkBox as Map<String, Any>)
+            this.updateCheckBox(position, holder)
         }
     }
 

@@ -30,7 +30,10 @@ class MainActivity : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
-        groceryItemRef = db.collection("User").document(mAuth.currentUser?.uid.toString()).collection("GroceryList")
+        groceryItemRef =
+            db.collection("User")
+                .document(mAuth.currentUser?.uid.toString())
+                .collection("GroceryList")
 
         addNoteBtn.setOnClickListener {
             startActivity(Intent(this, AddItemActivity::class.java))
