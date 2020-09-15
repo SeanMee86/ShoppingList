@@ -8,11 +8,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.google.firebase.firestore.CollectionReference
 import com.seanmeedevworld.shoppinglist.R
 import com.seanmeedevworld.shoppinglist.models.GroceryItem
 
-class GroceryItemFSAdapter(options: FirestoreRecyclerOptions<GroceryItem>, private val query : CollectionReference) :
+class GroceryItemFSAdapter(options: FirestoreRecyclerOptions<GroceryItem>) :
     FirestoreRecyclerAdapter<GroceryItem, GroceryItemFSAdapter.GroceryItemHolder>(options) {
 
     class GroceryItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

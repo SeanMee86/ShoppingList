@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
             .setQuery(query, GroceryItem::class.java)
             .build()
 
-        adapter = GroceryItemFSAdapter(options, query)
+        adapter = GroceryItemFSAdapter(options)
 
         recyclerView  = rvGroceries
         rvGroceries.setHasFixedSize(true)
