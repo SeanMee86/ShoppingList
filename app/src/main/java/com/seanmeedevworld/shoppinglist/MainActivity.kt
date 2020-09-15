@@ -38,6 +38,14 @@ class MainActivity : AppCompatActivity() {
         addNoteBtn.setOnClickListener {
             startActivity(Intent(this, AddItemActivity::class.java))
         }
+
+        groceryItemRef.addSnapshotListener{_, e ->
+            if(e != null){
+                return@addSnapshotListener
+            }
+            adapter.notifyDataSetChanged()
+        }
+
         setUpRecyclerView()
     }
 
@@ -91,7 +99,6 @@ class MainActivity : AppCompatActivity() {
                 adapter.deleteItem(viewHolder.adapterPosition)
             }
         }).attachToRecyclerView(rvGroceries)
-
     }
 
     private fun signOut() {

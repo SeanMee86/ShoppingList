@@ -1,6 +1,5 @@
 package com.seanmeedevworld.shoppinglist.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,20 +16,24 @@ class GroceryItemFSAdapter(options: FirestoreRecyclerOptions<GroceryItem>, priva
     FirestoreRecyclerAdapter<GroceryItem, GroceryItemFSAdapter.GroceryItemHolder>(options) {
 
     class GroceryItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val name: TextView = itemView.findViewById(R.id.tvGroceryItemName)
-        val quantity: TextView = itemView.findViewById(R.id.tvGroceryItemQuantity)
-        val gotten: CheckBox = itemView.findViewById(R.id.cbGotten)
+
+        var name: TextView = itemView.findViewById(R.id.tvGroceryItemName)
+        var quantity: TextView = itemView.findViewById(R.id.tvGroceryItemQuantity)
+        var gotten: CheckBox = itemView.findViewById(R.id.cbGotten)
     }
 
     fun deleteItem(position: Int) {
         snapshots.getSnapshot(position).reference.delete()
     }
 
-    fun updateCheckBox(position: Int, holder: GroceryItemHolder) {
+    private fun updateCheckBox(position: Int, holder: GroceryItemHolder) {
         val checked = hashMapOf(
             "gotten" to holder.gotten.isChecked
         )
-        snapshots.getSnapshot(position).reference.update(checked as Map<String, Boolean>)
+        snapshots
+            .getSnapshot(position)
+            .reference
+            .update(checked as Map<String, Boolean>)
     }
 
     override fun onCreateViewHolder(
@@ -54,5 +57,4 @@ class GroceryItemFSAdapter(options: FirestoreRecyclerOptions<GroceryItem>, priva
             this.updateCheckBox(position, holder)
         }
     }
-
 }
