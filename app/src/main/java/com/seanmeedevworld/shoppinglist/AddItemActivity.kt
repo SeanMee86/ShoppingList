@@ -42,21 +42,21 @@ class AddItemActivity : AppCompatActivity() {
     private fun addGrocery() {
         val name = etGrocery.text.toString()
         val quantity = etQuantity.text.toString()
-        val notebookRef = FirebaseFirestore.getInstance()
+        val groceryListRef = FirebaseFirestore.getInstance()
         if(name.isEmpty()) {
             Toast.makeText(this, "Please enter an item", Toast.LENGTH_SHORT).show()
             return
         }
         try {
             if (quantity.isEmpty()) {
-                notebookRef
-                    .collection("User")
+                groceryListRef
+                    .collection("Users")
                     .document(mAuth.currentUser?.uid.toString())
                     .collection("GroceryList")
                     .add(GroceryItem(name))
             } else {
-                notebookRef
-                    .collection("User")
+                groceryListRef
+                    .collection("Users")
                     .document(mAuth.currentUser?.uid.toString())
                     .collection("GroceryList")
                     .add(GroceryItem(name, quantity.toInt()))

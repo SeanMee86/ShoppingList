@@ -10,23 +10,24 @@ import com.google.firebase.auth.FirebaseAuth
 
 class StartActivity : AppCompatActivity() {
 
+    lateinit var mAuth: FirebaseAuth
     lateinit var providers: ArrayList<AuthUI.IdpConfig>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start)
+        mAuth = FirebaseAuth.getInstance()
 
-        if(FirebaseAuth.getInstance().currentUser != null) {
+        if(mAuth.currentUser != null) {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
+        } else {
+            providers = arrayListOf(
+                AuthUI.IdpConfig.EmailBuilder().build(),
+                AuthUI.IdpConfig.GoogleBuilder().build()
+            )
+            showSignInOptions()
         }
-
-        providers = arrayListOf(
-            AuthUI.IdpConfig.EmailBuilder().build(),
-            AuthUI.IdpConfig.GoogleBuilder().build()
-        )
-
-        showSignInOptions()
     }
 
     private fun showSignInOptions() {
@@ -41,13 +42,13 @@ class StartActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        finish()
 
         if(requestCode == MY_REQUEST_CODE) {
             val response = IdpResponse.fromResultIntent(data)
 
             if(resultCode == Activity.RESULT_OK) {
                 startActivity(Intent(this, MainActivity::class.java))
-                finish()
             }
         }
     }

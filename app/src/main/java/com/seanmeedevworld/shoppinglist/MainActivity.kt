@@ -12,6 +12,7 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.seanmeedevworld.shoppinglist.adapters.GroceryItemFSAdapter
 import com.seanmeedevworld.shoppinglist.models.GroceryItem
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var db : FirebaseFirestore
     private lateinit var groceryItemRef: CollectionReference
+    private lateinit var userRef: DocumentReference
     private lateinit var adapter : GroceryItemFSAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,9 +37,23 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
         db = FirebaseFirestore.getInstance()
+
+        userRef = db.collection("Users").document(mAuth.currentUser?.uid.toString())
+
+        userRef.get().addOnCompleteListener{
+            if(it.isSuccessful){
+                if(!it.result!!.exists()) {
+                    val email = mAuth.currentUser?.email
+                    val emailMap = hashMapOf(
+                        "email" to email
+                    )
+                    userRef.set(emailMap)
+                }
+            }
+        }
+
         groceryItemRef =
-            db.collection("User")
-                .document(mAuth.currentUser?.uid.toString())
+            userRef
                 .collection("GroceryList")
 
         addNoteBtn.setOnClickListener {
