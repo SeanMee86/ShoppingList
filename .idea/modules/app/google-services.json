@@ -42,6 +42,80 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:392944613852:android:8709244bb8118f14723719",
+        "android_client_info": {
+          "package_name": "com.seanmeedevworld.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "392944613852-5vfb3s3voefm2jsc6c27426hkek27fcj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.seanmeedevworld.com",
+            "certificate_hash": "cdad5c40dbf9b8837d411ea4e8b71f96549017fc"
+          }
+        },
+        {
+          "client_id": "392944613852-8v96inpt5u22iajbnjegj5k4qplr848u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD20oQZDk3lA0paiERaQ0AXy-8Ke7GPbro"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "392944613852-8v96inpt5u22iajbnjegj5k4qplr848u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:392944613852:android:150d4877465e7079723719",
+        "android_client_info": {
+          "package_name": "com.seanmeedevworld.shoppinglist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "392944613852-beg93fapiovqrs3f3edl88at396oj322.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.seanmeedevworld.shoppinglist",
+            "certificate_hash": "cdad5c40dbf9b8837d411ea4e8b71f96549017fc"
+          }
+        },
+        {
+          "client_id": "392944613852-8v96inpt5u22iajbnjegj5k4qplr848u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD20oQZDk3lA0paiERaQ0AXy-8Ke7GPbro"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "392944613852-8v96inpt5u22iajbnjegj5k4qplr848u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

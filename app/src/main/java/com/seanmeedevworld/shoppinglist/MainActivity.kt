@@ -8,6 +8,7 @@ import android.view.MenuItem
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
@@ -29,6 +30,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         mAuth = FirebaseAuth.getInstance()
+        if (mAuth.currentUser == null) {
+            startActivity(Intent(this, StartActivity::class.java))
+            finish()
+        }
         db = FirebaseFirestore.getInstance()
         groceryItemRef =
             db.collection("User")
@@ -102,8 +107,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun signOut() {
-        mAuth.signOut()
-        startActivity(Intent(this, StartActivity::class.java))
-        finish()
+        AuthUI.getInstance().signOut(this)
+            .addOnCompleteListener {
+                startActivity(Intent(this, StartActivity::class.java))
+                finish()
+            }
     }
 }
